@@ -1,4 +1,17 @@
+@import '../../sass/_variables.scss';
+
 .quiz-container {
-  background-color: blue;
+  background-color: $secondaryColor;
   margin: 0 auto;
+  padding: 1.8rem 1.8rem;
+  border-radius: 1rem;
+  font-weight: 500;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.quiz--title {
+  color: $secondaryLight4Color;
 }

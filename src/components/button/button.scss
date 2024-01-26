@@ -1,0 +1,25 @@
+@import '../../sass/variables';
+
+.button {
+  font-family: inherit;
+  background-color: $primaryColor;
+
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+
+  span {
+    display: inline-block;
+    font-weight: bold;
+    color: $secondaryLight4Color;
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    padding: 0.8rem 1.6rem;
+  }
+}
