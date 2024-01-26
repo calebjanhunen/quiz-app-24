@@ -1,4 +1,5 @@
-import Button from 'components/button/button';
+import { Button } from 'components';
+// import { Button } from '@mui/material';
 import React from 'react';
 import './home.scss';
 

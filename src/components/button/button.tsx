@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import React from 'react';
 import './button.scss';
 
@@ -5,10 +6,10 @@ interface Props {
   text: string;
 }
 
-export default function Button({ text }: Props) {
+export function CustomButton({ text }: Props) {
   return (
-    <button className='button'>
+    <Button className='btn' variant='contained'>
       <span>{text}</span>
-    </button>
+    </Button>
   );
 }

@@ -12,6 +12,19 @@
   gap: 1.8rem;
 }
 
-.quiz--title {
-  color: $secondaryLight4Color;
+.quiz {
+  &--title {
+    color: $secondaryLight4Color;
+  }
+
+  &--input {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+    align-items: center;
+
+    p {
+      color: $secondaryLight4Color;
+    }
+  }
 }
