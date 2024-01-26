@@ -1,29 +1,31 @@
 import { Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import './single-question.scss';
+import './single-answer.scss';
 
 interface Props {
-  selectedAns: string;
-  setSelectedAns: Dispatch<SetStateAction<string>>;
-  text: string;
+  selectedAns: number;
+  setSelectedAns: Dispatch<SetStateAction<number>>;
+  ansText: string;
+  ansIndex: number;
 }
 
 export default function SingleQuestion({
   selectedAns,
-  text,
+  ansText,
+  ansIndex,
   setSelectedAns,
 }: Props) {
   const [active, setActive] = useState<boolean>(false);
   useEffect(() => {
-    if (selectedAns === text) {
+    if (selectedAns === ansIndex) {
       setActive(true);
     } else {
       setActive(false);
     }
-  }, [selectedAns, text]);
+  }, [selectedAns, ansIndex]);
 
   function setAnswer() {
-    setSelectedAns(text);
+    setSelectedAns(ansIndex);
   }
 
   return (
@@ -32,7 +34,7 @@ export default function SingleQuestion({
       onClick={setAnswer}
     >
       <Typography className='single-question--text ' variant='h4'>
-        {text}
+        {ansText}
       </Typography>
     </div>
   );

@@ -1,4 +1,3 @@
-import { Button } from 'components';
 import useQuizApi from 'hooks/useQuizApi';
 import React, { useState } from 'react';
 import QuizQuestion from './components/quiz-question/quiz-question';
@@ -7,11 +6,22 @@ import './home.scss';
 
 export default function Home() {
   const { getQuizQuestions, questions, success } = useQuizApi();
+  const [questionIndex, setQuestionIndex] = useState<number>(0);
+  const [showResults, setShowResults] = useState<boolean>(false);
 
   return (
     <div className='container'>
-      <StartQuizDisplay getQuizQuestions={getQuizQuestions} />
-      {/* <QuizQuestion /> */}
+      {questions.length ? (
+        <QuizQuestion
+          question={questions[questionIndex]}
+          totalQuestions={questions.length}
+          questionIndex={questionIndex}
+          setQuestionIndex={setQuestionIndex}
+          setShowResults={setShowResults}
+        />
+      ) : (
+        <StartQuizDisplay getQuizQuestions={getQuizQuestions} />
+      )}
     </div>
   );
 }
