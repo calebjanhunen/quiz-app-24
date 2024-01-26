@@ -4,7 +4,7 @@ import './button.scss';
 
 interface Props {
   text: string;
-  onClick(): Promise<void>;
+  onClick(): Promise<void> | void;
 }
 
 export function CustomButton({ text, onClick }: Props) {
