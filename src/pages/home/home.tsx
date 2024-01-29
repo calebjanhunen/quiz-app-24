@@ -1,7 +1,8 @@
 import useQuizApi from 'hooks/useQuizApi';
 import { Result } from 'interfaces/result';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import QuizQuestion from './components/quiz-question/quiz-question';
+import Results from './components/results/results';
 import StartQuizDisplay from './components/start-quiz-display/start-quiz-display';
 import './home.scss';
 
@@ -11,9 +12,21 @@ export default function Home() {
   const [showResults, setShowResults] = useState<boolean>(false);
   const [results, setResults] = useState<Result[]>([]);
 
-  return (
-    <div className='container'>
-      {questions.length ? (
+  const display = () => {
+    if (showResults) {
+      return (
+        <Results
+          results={results}
+          totalQuestions={questions.length}
+          setShowResults={setShowResults}
+          setResults={setResults}
+          getQuizQuestions={getQuizQuestions}
+          setQuestionIndex={setQuestionIndex}
+        />
+      );
+    }
+    if (questions.length) {
+      return (
         <QuizQuestion
           question={questions[questionIndex]}
           totalQuestions={questions.length}
@@ -23,9 +36,10 @@ export default function Home() {
           results={results}
           setResults={setResults}
         />
-      ) : (
-        <StartQuizDisplay getQuizQuestions={getQuizQuestions} />
-      )}
-    </div>
-  );
+      );
+    }
+    return <StartQuizDisplay getQuizQuestions={getQuizQuestions} />;
+  };
+
+  return <div className='container'>{display()}</div>;
 }
