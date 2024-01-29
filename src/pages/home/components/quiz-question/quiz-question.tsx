@@ -3,7 +3,7 @@ import { Button } from 'components';
 import { QuizQuestionResponse } from 'interfaces/quiz-question-response';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { shuffleArray } from 'utils/array-shuffle';
-import SingleQuestion from '../single-question/single-answer';
+import SingleQuestion from '../single-answer/single-answer';
 import './quiz-question.scss';
 
 interface Props {
