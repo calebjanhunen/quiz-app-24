@@ -3,29 +3,27 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import './single-answer.scss';
 
 interface Props {
-  selectedAns: number;
-  setSelectedAns: Dispatch<SetStateAction<number>>;
+  selectedAns: string;
+  setSelectedAns: Dispatch<SetStateAction<string>>;
   ansText: string;
-  ansIndex: number;
 }
 
-export default function SingleQuestion({
+export default function SingleAnswer({
   selectedAns,
   ansText,
-  ansIndex,
   setSelectedAns,
 }: Props) {
   const [active, setActive] = useState<boolean>(false);
   useEffect(() => {
-    if (selectedAns === ansIndex) {
+    if (selectedAns === ansText) {
       setActive(true);
     } else {
       setActive(false);
     }
-  }, [selectedAns, ansIndex]);
+  }, [selectedAns, ansText]);
 
   function setAnswer() {
-    setSelectedAns(ansIndex);
+    setSelectedAns(ansText);
   }
 
   return (

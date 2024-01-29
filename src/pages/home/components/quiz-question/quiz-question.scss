@@ -3,6 +3,7 @@
 .question--container {
   display: flex;
   gap: 3.4rem;
+  flex-direction: column;
 
   .question {
     display: flex;

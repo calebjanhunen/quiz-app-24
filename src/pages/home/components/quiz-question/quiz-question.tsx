@@ -1,9 +1,10 @@
 import { Typography } from '@mui/material';
 import { Button } from 'components';
 import { QuizQuestionResponse } from 'interfaces/quiz-question-response';
+import { Result } from 'interfaces/result';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { shuffleArray } from 'utils/array-shuffle';
-import SingleQuestion from '../single-answer/single-answer';
+import SingleAnswer from '../single-answer/single-answer';
 import './quiz-question.scss';
 
 interface Props {
@@ -12,6 +13,8 @@ interface Props {
   questionIndex: number;
   setQuestionIndex: Dispatch<SetStateAction<number>>;
   setShowResults: Dispatch<SetStateAction<boolean>>;
+  results: Result[];
+  setResults: Dispatch<SetStateAction<Result[]>>;
 }
 
 export default function QuizQuestion({
@@ -20,14 +23,37 @@ export default function QuizQuestion({
   questionIndex,
   setQuestionIndex,
   setShowResults,
+  results,
+  setResults,
 }: Props) {
   const isLastQuestion = questionIndex === totalQuestions - 1;
-  const [selectedAns, setSelectedAns] = useState<string>('');
-  const [answers, setAnswers] = useState<string[]>(
-    shuffleArray([...question.incorrect_answers, question.correct_answer])
+  const [selectedAns, setSelectedAns] = useState<string>(
+    results[questionIndex] ? results[questionIndex].selectedAnswer : ''
   );
+  const [answers, setAnswers] = useState<string[]>([]);
+
+  useEffect(() => {
+    setAnswers(
+      shuffleArray([...question.incorrect_answers, question.correct_answer])
+    );
+  }, [question]);
+  console.log(answers);
+  const answerDisplay = answers.map((answer, index) => (
+    <SingleAnswer
+      selectedAns={selectedAns}
+      setSelectedAns={setSelectedAns}
+      ansText={answer}
+      key={index}
+    />
+  ));
 
   function setNextQuestion() {
+    setResults(prevResults => [
+      ...prevResults,
+      { correctAnswer: question.correct_answer, selectedAnswer: selectedAns },
+    ]);
+    setSelectedAns('');
+    setAnswers([]);
     if (isLastQuestion) {
       setShowResults(true);
       return;
@@ -53,7 +79,7 @@ export default function QuizQuestion({
           </Typography>
         </div>
 
-        {/* <div className='answers'>{question}</div> */}
+        <div className='answers'>{answerDisplay}</div>
       </div>
       <div className='question--btns'>
         <Button text='Previous' onClick={() => {}} />
