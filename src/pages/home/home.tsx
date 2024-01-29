@@ -10,7 +10,6 @@ export default function Home() {
   const [questionIndex, setQuestionIndex] = useState<number>(0);
   const [showResults, setShowResults] = useState<boolean>(false);
   const [results, setResults] = useState<Result[]>([]);
-  console.log(results);
 
   return (
     <div className='container'>

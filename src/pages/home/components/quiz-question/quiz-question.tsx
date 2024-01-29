@@ -27,16 +27,17 @@ export default function QuizQuestion({
   setResults,
 }: Props) {
   const isLastQuestion = questionIndex === totalQuestions - 1;
-  const [selectedAns, setSelectedAns] = useState<string>(
-    results[questionIndex] ? results[questionIndex].selectedAnswer : ''
-  );
+  const [selectedAns, setSelectedAns] = useState<string>('');
   const [answers, setAnswers] = useState<string[]>([]);
 
   useEffect(() => {
     setAnswers(
       shuffleArray([...question.incorrect_answers, question.correct_answer])
     );
-  }, [question]);
+    setSelectedAns(
+      results[questionIndex] ? results[questionIndex].selectedAnswer : ''
+    );
+  }, [question, questionIndex, results]);
 
   const answerDisplay = answers.map((answer, index) => (
     <SingleAnswer
@@ -48,12 +49,27 @@ export default function QuizQuestion({
   ));
 
   function setNextQuestion() {
-    setResults(prevResults => [
-      ...prevResults,
-      { correctAnswer: question.correct_answer, selectedAnswer: selectedAns },
-    ]);
-    setSelectedAns('');
-    setAnswers([]);
+    // Update results state (replace existing one or add new one)
+    setResults(prevResults => {
+      if (prevResults[questionIndex]) {
+        return prevResults.map((result, index) =>
+          index === questionIndex
+            ? {
+                correctAnswer: question.correct_answer,
+                selectedAnswer: selectedAns,
+              }
+            : result
+        );
+      } else {
+        return [
+          ...prevResults,
+          {
+            correctAnswer: question.correct_answer,
+            selectedAnswer: selectedAns,
+          },
+        ];
+      }
+    });
     if (isLastQuestion) {
       setShowResults(true);
       return;
@@ -65,6 +81,7 @@ export default function QuizQuestion({
     if (questionIndex === 0) {
       return;
     }
+    setQuestionIndex(prevIndex => prevIndex - 1);
   }
 
   return (
@@ -90,7 +107,7 @@ export default function QuizQuestion({
       <div className='question--btns'>
         <Button
           text='Previous'
-          onClick={() => {}}
+          onClick={setPreviousQuestion}
           disabled={questionIndex === 0}
         />
         <Button
