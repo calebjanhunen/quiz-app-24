@@ -37,7 +37,7 @@ export default function QuizQuestion({
       shuffleArray([...question.incorrect_answers, question.correct_answer])
     );
   }, [question]);
-  console.log(answers);
+
   const answerDisplay = answers.map((answer, index) => (
     <SingleAnswer
       selectedAns={selectedAns}
@@ -61,6 +61,12 @@ export default function QuizQuestion({
     setQuestionIndex(prev => prev + 1);
   }
 
+  function setPreviousQuestion() {
+    if (questionIndex === 0) {
+      return;
+    }
+  }
+
   return (
     <div>
       <div className='question--container'>
@@ -82,10 +88,15 @@ export default function QuizQuestion({
         <div className='answers'>{answerDisplay}</div>
       </div>
       <div className='question--btns'>
-        <Button text='Previous' onClick={() => {}} />
+        <Button
+          text='Previous'
+          onClick={() => {}}
+          disabled={questionIndex === 0}
+        />
         <Button
           text={isLastQuestion ? 'Submit' : 'next'}
           onClick={setNextQuestion}
+          disabled={!selectedAns}
         />
       </div>
     </div>
