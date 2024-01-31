@@ -55,31 +55,27 @@ export default function QuizQuestion({
   ));
 
   return (
-    <div>
-      <div className='question--container'>
-        <div className='question'>
-          <div className='heading'>
-            <Typography variant='h3' className='heading--title'>
-              Question {questionIndex + 1}
-            </Typography>
-            <Typography variant='h4' className='heading--title'>
-              /{totalQuestions}
-            </Typography>
-          </div>
-          <Typography className='question--text' variant='h4'>
-            {question.question}
+    <div className='question--container'>
+      <div className='question'>
+        <div className='heading'>
+          <Typography variant='h3' className='heading--title'>
+            Question {questionIndex + 1}
+          </Typography>
+          <Typography variant='h4' className='heading--title'>
+            /{totalQuestions}
           </Typography>
         </div>
+        <Typography className='question--text' variant='h4'>
+          {question.question}
+        </Typography>
+      </div>
 
-        <div className='answers'>{answerDisplay}</div>
-      </div>
-      <div className='question--btns'>
-        <Button
-          text={isLastQuestion ? 'Submit' : 'next'}
-          onClick={setNextQuestion}
-          disabled={!selectedAns}
-        />
-      </div>
+      <div className='answers'>{answerDisplay}</div>
+      <Button
+        text={isLastQuestion ? 'Submit' : 'next'}
+        onClick={setNextQuestion}
+        disabled={!selectedAns}
+      />
     </div>
   );
 }

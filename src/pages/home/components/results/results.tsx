@@ -21,8 +21,8 @@ export default function Results({
 }: Props) {
   async function startOver() {
     setShowResults(false);
-    setQuestionIndex(0);
     setScore(0);
+    setQuestionIndex(0);
     await getQuizQuestions();
   }
 
