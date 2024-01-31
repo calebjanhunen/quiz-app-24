@@ -4,6 +4,7 @@ import { QuizQuestionResponse } from 'interfaces/quiz-question-response';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { PageToDisplay } from 'types/page-to-display';
 import { shuffleArray } from 'utils/array-shuffle';
+import { renderHTML } from 'utils/decode-html-entities';
 import SingleAnswer from '../single-answer/single-answer';
 import './quiz-question.scss';
 
@@ -67,7 +68,7 @@ export default function QuizQuestion({
           </Typography>
         </div>
         <Typography className='question--text' variant='h4'>
-          {question.question.replace(/&quot;/g, '"')}
+          {renderHTML(question.question)}
         </Typography>
       </div>
 
