@@ -20,6 +20,7 @@ export default function StartQuizDisplay({
   return (
     <div className='quiz-container'>
       <h1 className='quiz--title'>Quiz App</h1>
+      <h2 className='quiz--title'>By: Caleb Janhunen</h2>
       <Button text='Start Quiz' onClick={getQuestions} />
     </div>
   );
