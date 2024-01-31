@@ -67,7 +67,7 @@ export default function QuizQuestion({
           </Typography>
         </div>
         <Typography className='question--text' variant='h4'>
-          {question.question}
+          {question.question.replace(/&quot;/g, '"')}
         </Typography>
       </div>
 
