@@ -1,6 +1,5 @@
 import useQuizApi from 'hooks/useQuizApi';
-import { Result } from 'interfaces/result';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import QuizQuestion from './components/quiz-question/quiz-question';
 import Results from './components/results/results';
 import StartQuizDisplay from './components/start-quiz-display/start-quiz-display';
@@ -10,16 +9,16 @@ export default function Home() {
   const { getQuizQuestions, questions } = useQuizApi();
   const [questionIndex, setQuestionIndex] = useState<number>(0);
   const [showResults, setShowResults] = useState<boolean>(false);
-  const [results, setResults] = useState<Result[]>([]);
+  const [score, setScore] = useState<number>(0);
 
   const display = () => {
     if (showResults) {
       return (
         <Results
-          results={results}
+          score={score}
           totalQuestions={questions.length}
           setShowResults={setShowResults}
-          setResults={setResults}
+          setScore={setScore}
           getQuizQuestions={getQuizQuestions}
           setQuestionIndex={setQuestionIndex}
         />
@@ -33,8 +32,7 @@ export default function Home() {
           questionIndex={questionIndex}
           setQuestionIndex={setQuestionIndex}
           setShowResults={setShowResults}
-          results={results}
-          setResults={setResults}
+          setScore={setScore}
         />
       );
     }

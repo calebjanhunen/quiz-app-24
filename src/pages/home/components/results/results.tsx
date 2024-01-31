@@ -1,38 +1,28 @@
 import { Button } from 'components';
-import { Result } from 'interfaces/result';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import './results.scss';
 
 interface Props {
-  results: Result[];
+  score: number;
+  setScore: Dispatch<SetStateAction<number>>;
   setShowResults: Dispatch<SetStateAction<boolean>>;
   totalQuestions: number;
   getQuizQuestions(): Promise<void>;
   setQuestionIndex: Dispatch<SetStateAction<number>>;
-  setResults: Dispatch<SetStateAction<Result[]>>;
 }
 
 export default function Results({
-  results,
+  score,
   totalQuestions,
   setShowResults,
   getQuizQuestions,
   setQuestionIndex,
-  setResults,
+  setScore,
 }: Props) {
-  const [score, setScore] = useState<number>(0);
-  useEffect(() => {
-    results.forEach(result => {
-      if (result.correctAnswer === result.selectedAnswer) {
-        setScore(prev => prev + 1);
-      }
-    });
-  }, [results]);
-
   async function startOver() {
     setShowResults(false);
     setQuestionIndex(0);
-    setResults([]);
+    setScore(0);
     await getQuizQuestions();
   }
 

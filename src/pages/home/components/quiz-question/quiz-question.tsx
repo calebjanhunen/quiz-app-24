@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import { Button } from 'components';
 import { QuizQuestionResponse } from 'interfaces/quiz-question-response';
-import { Result } from 'interfaces/result';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { shuffleArray } from 'utils/array-shuffle';
 import SingleAnswer from '../single-answer/single-answer';
@@ -13,8 +12,7 @@ interface Props {
   questionIndex: number;
   setQuestionIndex: Dispatch<SetStateAction<number>>;
   setShowResults: Dispatch<SetStateAction<boolean>>;
-  results: Result[];
-  setResults: Dispatch<SetStateAction<Result[]>>;
+  setScore: Dispatch<SetStateAction<number>>;
 }
 
 export default function QuizQuestion({
@@ -23,8 +21,7 @@ export default function QuizQuestion({
   questionIndex,
   setQuestionIndex,
   setShowResults,
-  results,
-  setResults,
+  setScore,
 }: Props) {
   const isLastQuestion = questionIndex === totalQuestions - 1;
   const [selectedAns, setSelectedAns] = useState<string>('');
@@ -34,10 +31,19 @@ export default function QuizQuestion({
     setAnswers(
       shuffleArray([...question.incorrect_answers, question.correct_answer])
     );
-    setSelectedAns(
-      results[questionIndex] ? results[questionIndex].selectedAnswer : ''
-    );
-  }, [question, questionIndex, results]);
+  }, [question]);
+
+  function setNextQuestion() {
+    setSelectedAns('');
+    if (selectedAns === question.correct_answer) {
+      setScore(prevScore => prevScore + 1);
+    }
+    if (isLastQuestion) {
+      setShowResults(true);
+      return;
+    }
+    setQuestionIndex(prev => prev + 1);
+  }
 
   const answerDisplay = answers.map((answer, index) => (
     <SingleAnswer
@@ -47,35 +53,6 @@ export default function QuizQuestion({
       key={index}
     />
   ));
-
-  function setNextQuestion() {
-    // Update results state (replace existing one or add new one)
-    setResults(prevResults => {
-      if (prevResults[questionIndex]) {
-        return prevResults.map((result, index) =>
-          index === questionIndex
-            ? {
-                correctAnswer: question.correct_answer,
-                selectedAnswer: selectedAns,
-              }
-            : result
-        );
-      } else {
-        return [
-          ...prevResults,
-          {
-            correctAnswer: question.correct_answer,
-            selectedAnswer: selectedAns,
-          },
-        ];
-      }
-    });
-    if (isLastQuestion) {
-      setShowResults(true);
-      return;
-    }
-    setQuestionIndex(prev => prev + 1);
-  }
 
   return (
     <div>
@@ -89,7 +66,6 @@ export default function QuizQuestion({
               /{totalQuestions}
             </Typography>
           </div>
-
           <Typography className='question--text' variant='h4'>
             {question.question}
           </Typography>
