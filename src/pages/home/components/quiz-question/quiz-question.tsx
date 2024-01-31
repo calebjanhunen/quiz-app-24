@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import { Button } from 'components';
 import { QuizQuestionResponse } from 'interfaces/quiz-question-response';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { PageToDisplay } from 'types/page-to-display';
 import { shuffleArray } from 'utils/array-shuffle';
 import SingleAnswer from '../single-answer/single-answer';
 import './quiz-question.scss';
@@ -11,8 +12,8 @@ interface Props {
   totalQuestions: number;
   questionIndex: number;
   setQuestionIndex: Dispatch<SetStateAction<number>>;
-  setShowResults: Dispatch<SetStateAction<boolean>>;
   setScore: Dispatch<SetStateAction<number>>;
+  setPageToDisplay: Dispatch<SetStateAction<PageToDisplay>>;
 }
 
 export default function QuizQuestion({
@@ -20,8 +21,8 @@ export default function QuizQuestion({
   totalQuestions,
   questionIndex,
   setQuestionIndex,
-  setShowResults,
   setScore,
+  setPageToDisplay,
 }: Props) {
   const isLastQuestion = questionIndex === totalQuestions - 1;
   const [selectedAns, setSelectedAns] = useState<string>('');
@@ -39,7 +40,7 @@ export default function QuizQuestion({
       setScore(prevScore => prevScore + 1);
     }
     if (isLastQuestion) {
-      setShowResults(true);
+      setPageToDisplay('results');
       return;
     }
     setQuestionIndex(prev => prev + 1);

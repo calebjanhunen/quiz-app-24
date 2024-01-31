@@ -1,29 +1,27 @@
 import { Button } from 'components';
 import React, { Dispatch, SetStateAction } from 'react';
+import { PageToDisplay } from 'types/page-to-display';
 import './results.scss';
 
 interface Props {
   score: number;
   setScore: Dispatch<SetStateAction<number>>;
-  setShowResults: Dispatch<SetStateAction<boolean>>;
   totalQuestions: number;
-  getQuizQuestions(): Promise<void>;
   setQuestionIndex: Dispatch<SetStateAction<number>>;
+  setPageToDisplay: Dispatch<SetStateAction<PageToDisplay>>;
 }
 
 export default function Results({
   score,
   totalQuestions,
-  setShowResults,
-  getQuizQuestions,
   setQuestionIndex,
   setScore,
+  setPageToDisplay,
 }: Props) {
-  async function startOver() {
-    setShowResults(false);
+  function startOver() {
     setScore(0);
     setQuestionIndex(0);
-    await getQuizQuestions();
+    setPageToDisplay('start-quiz');
   }
 
   return (
